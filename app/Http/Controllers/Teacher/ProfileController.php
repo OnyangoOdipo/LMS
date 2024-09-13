@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminProfileUpdateRequest;
+use App\Http\Requests\TeacherProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('admin.profile.edit', [
+        return view('teacher.profile.edit', [
             'user' => $request->user(),
         ]);
     }
@@ -25,7 +25,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(AdminProfileUpdateRequest $request): RedirectResponse
+    public function update(TeacherProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
 
@@ -35,7 +35,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('admin.profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('teacher.profile.edit')->with('status', 'profile-updated');
     }
 
     /**
@@ -49,13 +49,13 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        Auth::guard('admin')->logout();
+        Auth::guard('teacher')->logout();
 
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/admin.login');
+        return Redirect::to('/teacher.login');
     }
 }
