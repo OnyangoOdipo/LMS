@@ -21,6 +21,15 @@ Route::middleware('auth')->group(function () {
 Route::get('/socialite/{driver}', [SocialLoginController::class, 'toProvider'])->where('driver', 'google|github');
 Route::get('/auth/{driver}login', [SocialLoginController::class, 'handleCallback'])->where('driver', 'google|github');
 
+Route::get('/video-call-room', function() {
+    return view('video-call-room');
+})->name('video-call-room');
+
+Route::get('/video', function() {
+    return view('video');
+})->name('video');
+
+
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
 require __DIR__.'/teacher.php';

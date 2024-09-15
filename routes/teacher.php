@@ -13,6 +13,15 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::post('login', [AuthenticatedSessionController::class, 'store']);
     });
 
+    Route::get('/video-call-room', function() {
+        return view('video-call-room');
+    })->name('video-call-room');
+    
+    Route::get('/video', function() {
+        return view('video');
+    })->name('video');
+    
+
     Route::middleware('auth:teacher')->group(function () {
         Route::get('/dashboard', function () {
             return view('teacher.dashboard');

@@ -14,6 +14,10 @@
                 </div>
             </div>
 
+            <x-responsive-nav-link :href="route('video')">
+                    {{ __('Video Call') }}
+            </x-responsive-nav-link>
+
             <!-- Enrolled Courses Section -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900 dark:text-gray-100">

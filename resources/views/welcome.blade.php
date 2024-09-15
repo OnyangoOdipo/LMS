@@ -91,14 +91,16 @@
             <h2 class="text-4xl font-bold text-center mb-10">What Our Students Say</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="testimonial bg-white p-6 rounded-lg shadow-lg" data-aos="fade-up">
-                    <img src="{{ asset('images/student1.jpg') }}" alt="Student" class="mb-4 w-16 h-16 object-cover rounded-full">
-                    <p class="text-gray-600">"The best platform for learning in my native language. I can now study at my own pace!"</p>
-                    <p class="text-yellow-500 mt-2 font-semibold">- Amina, Kenya</p>
+                    <img src="{{ asset('storage/images/Denis.jpeg') }}" alt="Student" class="mb-4 w-24 h-24 object-cover rounded-full">
+                    <p class="text-gray-600">"BCH is not only a center of the next technological advancement through skills it teaches its students and services it offers, it has a rich value system that distinguishes it.
+                                                I have come to benefit from both peer mentorship and pupillage from a vast team of experienced software engineers. I have been able to understand how to harness the power of the mind in applying class work into real life problems. 
+                                                BCH is my first choice and I believe it should be everyone's first choice."</p>
+                    <p class="text-yellow-500 mt-2 font-semibold">- Dennis Langat, Kenya</p>
                 </div>
                 <div class="testimonial bg-white p-6 rounded-lg shadow-lg" data-aos="fade-up">
-                    <img src="{{ asset('images/student2.jpg') }}" alt="Student" class="mb-4 w-16 h-16 object-cover rounded-full">
-                    <p class="text-gray-600">"Interactive and easy to use. I love how I can connect with my teachers anytime!"</p>
-                    <p class="text-yellow-500 mt-2 font-semibold">- Kwame, Ghana</p>
+                    <img src="{{ asset('storage/images/comfort.jpeg') }}" alt="Student" class="mb-4 w-24 h-24 object-cover rounded-full">
+                    <p class="text-gray-600">"Bonnie Computer Hub(BCH) has been pivotal in helping me better my understanding in web development and design. I have been able to interact with the awesome and amazing executive team of teachers who are so warm and approachable. The standards in BCH are aimed towards excellence and providing the students with an effective and supportive environment for them to grow and learn skills."</p>
+                    <p class="text-yellow-500 mt-2 font-semibold">- Comfort Mwanga, Kenya</p>
                 </div>
             </div>
         </div>
@@ -136,7 +138,7 @@
                     <div class="instructor text-center p-6 bg-gradient-to-r from-blue-400 via-teal-500 to-green-500 rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl ">
                         <img src="{{ asset('storage/images/Sheila.jpeg') }}" alt="Instructor 2" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-white">
                         <h3 class="text-xl font-semibold mb-2 text-black">Sheila Chebii</h3>
-                        <p class="text-black">Specialist in Web Development and passionate about teaching new technologies.</p>
+                        <p class="text-black">Highly motivated software engineer proficient in various programming languages and technologies, eager to offer education to upcoming developers, contribute to dynamic teams and tackle complex challenges.</p>
                     </div>
                 </div>
 
@@ -145,7 +147,7 @@
                     <div class="instructor text-center p-6 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl ">
                         <img src="{{ asset('storage/images/Emmanuel.jpeg') }}" alt="Instructor 3" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-white">
                         <h3 class="text-xl font-semibold mb-2 text-black">Emmanuel Kipkemboi</h3>
-                        <p class="text-black">Experienced in Data Science and dedicated to helping students excel in their careers.</p>
+                        <p class="text-black">Nothing Given so far 😡.</p>
                     </div>
                 </div>
 
@@ -155,7 +157,7 @@
                     <div class="instructor text-center p-6 bg-gradient-to-r from-green-400 via-teal-500 to-blue-500 rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl ">
                         <img src="{{ asset('storage/images/Paul.jpeg') }}" alt="Instructor 4" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-white">
                         <h3 class="text-xl font-semibold mb-2 text-black">Paul Ruoya</h3>
-                        <p class="text-black">Seasoned Software Engineer with expertise in backend systems and databases.</p>
+                        <p class="text-black">Nothing Given so far 😡.</p>
                     </div>
                     <!-- Instructor 5 -->
                     <div class="instructor text-center p-6 bg-gradient-to-r from-red-400 via-orange-500 to-yellow-500 rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl ">
