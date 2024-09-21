@@ -3,6 +3,7 @@
 use App\Http\Controllers\Teacher\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Teacher\ProfileController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('teacher')->name('teacher.')->group(function () {
@@ -26,6 +27,13 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/dashboard', function () {
             return view('teacher.dashboard');
         })->name('dashboard');
+
+            Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+            Route::get('/quizzes/create', [QuizController::class, 'create'])->name('quizzes.create');
+            Route::post('/', [QuizController::class, 'store'])->name('quizzes.store');
+            Route::get('/quizzes/{quiz}/edit', [QuizController::class, 'edit'])->name('quizzes.edit');
+            Route::put('/quizzes/{quiz}', [QuizController::class, 'update'])->name('quizzes.update');
+            Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

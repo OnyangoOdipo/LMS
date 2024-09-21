@@ -7,67 +7,77 @@ use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
+    // Fetch all courses to display in the admin view
     public function index()
     {
-        // Retrieve all courses for listing
         $courses = Course::all();
-        return view('courses.index', compact('courses'));
+        return view('admin.courses', compact('courses'));
     }
 
-    public function create()
-    {
-        return view('courses.create');
-    }
-
+    // Store a new course
     public function store(Request $request)
     {
-        // Validate the request data
-        $validated = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'dialect' => 'required|string|max:255',
-            'teacher_id' => 'required|exists:users,id',
+            'category' => 'required|string|max:255',
             'duration' => 'required|integer',
-            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric'
         ]);
 
-        // Create a new course
-        Course::create($validated);
+        Course::create($request->all());
 
-        return redirect()->route('courses.index')->with('success', 'Course created successfully.');
+        return redirect()->route('admin.courses')
+                         ->with('success', 'Course created successfully.');
     }
 
-    public function show(Course $course)
+    // Fetch a specific course for editing (used with AJAX)
+    public function edit($id)
     {
-        return view('courses.show', compact('course'));
+        $course = Course::find($id);
+
+        if ($course) {
+            return response()->json($course);
+        } else {
+            return response()->json(['error' => 'Course not found.'], 404);
+        }
     }
 
-    public function edit(Course $course)
+    // Update a specific course
+    public function update(Request $request, $id)
     {
-        return view('courses.edit', compact('course'));
-    }
-
-    public function update(Request $request, Course $course)
-    {
-        // Validate the request data
-        $validated = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'dialect' => 'required|string|max:255',
-            'teacher_id' => 'required|exists:users,id',
+            'category' => 'required|string|max:255',
             'duration' => 'required|integer',
-            'price' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric'
         ]);
 
-        // Update the course
-        $course->update($validated);
+        $course = Course::find($id);
 
-        return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
+        if ($course) {
+            $course->update($request->all());
+            return redirect()->route('admin.courses')
+                             ->with('success', 'Course updated successfully.');
+        } else {
+            return redirect()->route('admin.courses')
+                             ->with('error', 'Course not found.');
+        }
     }
 
-    public function destroy(Course $course)
+    // Delete a specific course
+    public function destroy($id)
     {
-        $course->delete();
-        return redirect()->route('courses.index')->with('success', 'Course deleted successfully.');
+        $course = Course::find($id);
+
+        if ($course) {
+            $course->delete();
+            return redirect()->route('admin.courses')
+                             ->with('success', 'Course deleted successfully.');
+        } else {
+            return redirect()->route('admin.courses')
+                             ->with('error', 'Course not found.');
+        }
     }
 }

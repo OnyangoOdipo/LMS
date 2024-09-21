@@ -145,9 +145,9 @@
                 <!-- Centered Instructor -->
                 <div class="flex items-center justify-center md:col-span-1">
                     <div class="instructor text-center p-6 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl ">
-                        <img src="{{ asset('storage/images/Emmanuel.jpeg') }}" alt="Instructor 3" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-white">
+                        <img src="{{ asset('storage/images/Emannuel.jpeg') }}" alt="Instructor 3" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-white">
                         <h3 class="text-xl font-semibold mb-2 text-black">Emmanuel Kipkemboi</h3>
-                        <p class="text-black">Nothing Given so far 😡.</p>
+                        <p class="text-black">Nothing Given so far.</p>
                     </div>
                 </div>
 
@@ -157,7 +157,7 @@
                     <div class="instructor text-center p-6 bg-gradient-to-r from-green-400 via-teal-500 to-blue-500 rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl ">
                         <img src="{{ asset('storage/images/Paul.jpeg') }}" alt="Instructor 4" class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-white">
                         <h3 class="text-xl font-semibold mb-2 text-black">Paul Ruoya</h3>
-                        <p class="text-black">Nothing Given so far 😡.</p>
+                        <p class="text-black">"I'm a software engineer with experience in various programming languages, focused on crafting robust and dynamic full-stack solutions."</p>
                     </div>
                     <!-- Instructor 5 -->
                     <div class="instructor text-center p-6 bg-gradient-to-r from-red-400 via-orange-500 to-yellow-500 rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl ">

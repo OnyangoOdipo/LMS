@@ -64,49 +64,8 @@
     
     <!-- Main Content -->
     <main class="flex-1 p-6">
-      <h1 class="text-3xl font-bold text-blue-900">Welcome to the Student Dashboard</h1>
       @include('components.alert')
-
-      <!-- Dashboard Cards -->
-      <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 lg:grid-cols-3">
-        <div class="bg-white p-4 rounded-lg shadow">
-          <h2 class="font-semibold text-lg text-blue-900">Current Score</h2>
-          <p class="text-3xl font-bold">45</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow">
-          <h2 class="font-semibold text-lg text-blue-900">Pending Assignments</h2>
-          <p class="text-3xl font-bold">12</p>
-        </div>
-        <div class="bg-white p-4 rounded-lg shadow">
-          <h2 class="font-semibold text-lg text-blue-900">Quizzes</h2>
-          <p class="text-3xl font-bold">5</p>
-        </div>
-      </div>
-
-      <!-- Quizzes, Assignments, Announcements Section -->
-      <div class="mt-6">
-        <h2 class="text-2xl font-semibold text-blue-900">Quizzes, Assignments, and Announcements</h2>
-        <div class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="font-semibold">Quizzes</h3>
-            <p>Upcoming: 2 quizzes</p>
-            <p>Due Dates: Next quiz due in 3 days</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="font-semibold">Assignments</h3>
-            <p>Pending: 4 assignments</p>
-            <p>Due Dates: Next assignment due in 5 days</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="font-semibold">Announcements</h3>
-            <p>Latest: Staff meeting on Friday</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="font-semibold">Progress Tracking</h3>
-            <p>Your current progress: 85%</p>
-          </div>
-        </div>
-      </div>
+        {{ $slot }}
     </main>
   </div>
 

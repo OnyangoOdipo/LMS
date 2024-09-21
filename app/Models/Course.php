@@ -10,11 +10,7 @@ class Course extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'dialect', 'teacher_id', 'duration', 'price'
+        'title', 'description', 'category', 'duration', 'price'
     ];
 
-    public function teacher()
-    {
-        return $this->belongsTo(User::class, 'teacher_id');
-    }
 }
