@@ -8,32 +8,32 @@
 
         <div class="bg-white shadow-lg p-6 rounded-lg">
             @if($currentQuestion)
-            <h2 class="text-xl font-semibold">{{ $currentQuestion->question }}</h2>
+                <h2 class="text-xl font-semibold">{{ $currentQuestion->question }}</h2>
 
-            <form action="{{ route('quizzes.submitQuestion', [$quiz->id, $currentQuestion->id]) }}" method="POST">
-                @csrf
+                <form action="{{ route('quizzes.submitQuestion', [$quiz->id, $currentQuestion->id]) }}" method="POST">
+                    @csrf
 
-                <div class="mt-4 space-y-2">
-                    @foreach (json_decode($currentQuestion->options) as $option)
-                    <div>
-                        <label class="inline-flex items-center">
-                            <input type="radio" name="answer" value="{{ $option->choice }}" class="form-radio" required>
-                            <span class="ml-2">{{ $option->choice }}</span>
-                        </label>
+                    <div class="mt-4 space-y-2">
+                        @foreach (json_decode($currentQuestion->options) as $option)
+                            <div>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="answer" value="{{ $option->choice }}" class="form-radio" required>
+                                    <span class="ml-2">{{ $option->choice }}</span>
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
-                    @endforeach
-                </div>
 
-                <div class="mt-8 flex justify-between">
-                    @if ($currentQuestionIndex < $totalQuestions - 1)
-                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Next</button>
+                    <div class="mt-8 flex justify-between">
+                        @if ($currentQuestionIndex < $totalQuestions - 1)
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Next</button>
                         @else
-                        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg">Submit Quiz</button>
+                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg">Submit Quiz</button>
                         @endif
-                </div>
-            </form>
+                    </div>
+                </form>
             @else
-            <p class="text-red-500">No question available.</p>
+                <p class="text-red-500">No question available.</p>
             @endif
         </div>
 
@@ -42,26 +42,20 @@
         </div>
     </div>
 
-<script>
-    let timeRemaining = {{ session('timeRemaining') }};
-    const timerElement = document.getElementById('timer');
-
-    function startTimer() {
-        const interval = setInterval(() => {
-            if (timeRemaining <= 0) {
-                clearInterval(interval);
-                alert('Time is up! Submitting your quiz.');
-                document.querySelector('form').submit(); // Automatically submit the quiz
-            } else {
-                let minutes = Math.floor(timeRemaining / 60);
-                let seconds = timeRemaining % 60;
-                timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                timeRemaining--;
-            }
-        }, 1000);
-    }
-
-    startTimer();
+    <script>
+    let remainingTime = {{ $remainingTime }};
+    let timerInterval = setInterval(function() {
+        if (remainingTime <= 0) {
+            clearInterval(timerInterval);
+            document.getElementById('quiz-form').submit(); // auto-submit when time is up
+        } else {
+            let minutes = Math.floor(remainingTime / 60);
+            let seconds = remainingTime % 60;
+            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+            remainingTime--;
+        }
+    }, 1000);
 </script>
 
 </x-student-nav>

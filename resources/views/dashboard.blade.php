@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ asset('build/assets/output.css') }}">
   <title>Student Dashboard</title>
 </head>
+
 <body class="bg-gray-100">
 
   <!-- Navbar -->
@@ -26,42 +28,42 @@
   </nav>
 
   <div class="flex h-screen">
-    
+
     <!-- Sidebar -->
     <aside class="hidden md:flex flex-col w-64 bg-gray-900 text-white rounded-lg">
       <div class="flex items-center justify-center h-16 bg-blue-800 rounded-t-lg">
-          <span class="font-bold uppercase text-center">Dashboard <br> Menu</span>
+        <span class="font-bold uppercase text-center">Dashboard <br> Menu</span>
       </div>
       <nav class="flex-1 overflow-y-auto">
         <ul class="flex flex-col px-2 py-4">
           <li>
             <a href="#" class="flex items-center px-4 py-2 bg-gray-900 hover:bg-blue-600 rounded-lg my-1">
-              <span class="material-icons mr-2">assessment</span> 
+              <span class="material-icons mr-2">assessment</span>
               Study Report
             </a>
           </li>
           <li>
             <a href="#" class="flex items-center px-4 py-2 bg-gray-900 hover:bg-blue-600 rounded-lg my-1">
-              <span class="material-icons mr-2">book</span> 
+              <span class="material-icons mr-2">book</span>
               Learning Content
             </a>
           </li>
           <li>
             <a href="#" class="flex items-center px-4 py-2 bg-gray-900 hover:bg-blue-600 rounded-lg my-1">
-              <span class="material-icons mr-2">inventory</span> 
+              <span class="material-icons mr-2">inventory</span>
               Resources
             </a>
           </li>
           <li>
             <a href="#" class="flex items-center px-4 py-2 bg-gray-900 hover:bg-blue-600 rounded-lg my-1">
-              <span class="material-icons mr-2">person</span> 
+              <span class="material-icons mr-2">person</span>
               Your Profile
             </a>
           </li>
         </ul>
       </nav>
     </aside>
-    
+
     <!-- Main Content -->
     <main class="flex-1 p-6">
       <h1 class="text-3xl font-bold text-blue-900">Welcome to the Student Dashboard</h1>
@@ -85,32 +87,47 @@
 
       <!-- Quizzes, Assignments, Announcements Section -->
       <div class="mt-6">
-        <h2 class="text-2xl font-semibold text-blue-900">Quizzes, Assignments, and Announcements</h2>
-        <div class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
-          <div class="bg-white p-4 rounded-lg shadow">
+    <h2 class="text-2xl font-semibold text-blue-900">Quizzes, Assignments, and Announcements</h2>
+    <div class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Quizzes Section -->
+        <div class="bg-white p-4 rounded-lg shadow">
             <h3 class="font-semibold">Quizzes</h3>
-            <p>Upcoming: 2 quizzes</p>
-            <p>Due Dates: Next quiz due in 3 days</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="font-semibold">Assignments</h3>
-            <p>Pending: 4 assignments</p>
-            <p>Due Dates: Next assignment due in 5 days</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="font-semibold">Announcements</h3>
-            <p>Latest: Staff meeting on Friday</p>
-          </div>
-          <div class="bg-white p-4 rounded-lg shadow">
-            <h3 class="font-semibold">Progress Tracking</h3>
-            <p>Your current progress: 85%</p>
-          </div>
+            <p>Upcoming: {{ $quizzes->count() }} quizzes</p>
+            @if ($quizzes->count())
+                <p>Next quiz due in {{ $quizzes->first()->due_in_days }} days</p>
+            @else
+                <p>No upcoming quizzes.</p>
+            @endif
         </div>
-      </div>
+
+        <!-- Assignments Section -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="font-semibold">Assignments</h3>
+            <p>Pending: {{ $assignments->count() }} assignments</p>
+            @if ($assignments->count())
+                <p>Next assignment due in {{ $assignments->first()->due_in_days }} days</p>
+            @else
+                <p>No pending assignments.</p>
+            @endif
+        </div>
+
+        <!-- Announcements Section -->
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="font-semibold">Announcements</h3>
+            @if ($announcements->count())
+                <p>Latest: {{ $announcements->first()->message }}</p>
+            @else
+                <p>No announcements.</p>
+            @endif
+        </div>
+    </div>
+</div>
+
     </main>
   </div>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </body>
+
 </html>

@@ -73,47 +73,53 @@
 
         <form action="{{ route('teacher.quizzes.store') }}" method="POST">
             @csrf
-            <div class="mb-4">
-                <label for="title" class="block text-lg font-medium text-gray-700">Title:</label>
-                <input type="text" name="title" id="title" value="{{ old('title') }}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label for="title" class="block text-lg font-medium text-gray-700">Title:</label>
+                    <input type="text" name="title" id="title" value="{{ old('title') }}" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
+
+                <div>
+                    <label for="course_id" class="block text-lg font-medium text-gray-700">Course:</label>
+                    <select name="course_id" id="course_id" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                        @foreach($courses as $course)
+                            <option value="{{ $course->id }}">{{ $course->title }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
-            <div class="mb-4">
-                <label for="course_id" class="block text-lg font-medium text-gray-700">Course:</label>
-                <select name="course_id" id="course_id" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-                    @foreach($courses as $course)
-                        <option value="{{ $course->id }}">{{ $course->title }}</option>
-                    @endforeach
-                </select>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label for="quiz_type" class="block text-lg font-medium text-gray-700">Quiz Type:</label>
+                    <select name="quiz_type" id="quiz_type" onchange="toggleQuestions()" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                        <option value="multiple_choice" {{ old('quiz_type') == 'multiple_choice' ? 'selected' : '' }}>Multiple Choice</option>
+                        <option value="teacher_reviewed" {{ old('quiz_type') == 'teacher_reviewed' ? 'selected' : '' }}>Teacher Reviewed</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="cohort" class="block text-lg font-medium text-gray-700">Cohort:</label>
+                    <input type="number" name="cohort" id="cohort" value="{{ old('cohort') }}" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
             </div>
 
-            <div class="mb-4">
-                <label for="quiz_type" class="block text-lg font-medium text-gray-700">Quiz Type:</label>
-                <select name="quiz_type" id="quiz_type" onchange="toggleQuestions()" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-                    <option value="multiple_choice" {{ old('quiz_type') == 'multiple_choice' ? 'selected' : '' }}>Multiple Choice</option>
-                    <option value="teacher_reviewed" {{ old('quiz_type') == 'teacher_reviewed' ? 'selected' : '' }}>Teacher Reviewed</option>
-                </select>
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label for="start_time" class="block text-lg font-medium text-gray-700">Start Time:</label>
+                    <input type="time" name="start_time" id="start_time" value="{{ old('start_time') }}" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
 
-            <div class="mb-4">
-                <label for="cohort" class="block text-lg font-medium text-gray-700">Cohort:</label>
-                <input type="number" name="cohort" id="cohort" value="{{ old('cohort') }}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-            </div>
-
-            <div class="mb-4">
-                <label for="start_time" class="block text-lg font-medium text-gray-700">Start Time:</label>
-                <input type="time" name="start_time" id="start_time" value="{{ old('start_time') }}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
-            </div>
-
-            <div class="mb-4">
-                <label for="end_time" class="block text-lg font-medium text-gray-700">End Time:</label>
-                <input type="time" name="end_time" id="end_time" value="{{ old('end_time') }}" required
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                <div>
+                    <label for="end_time" class="block text-lg font-medium text-gray-700">End Time:</label>
+                    <input type="time" name="end_time" id="end_time" value="{{ old('end_time') }}" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
+                </div>
             </div>
 
             <div class="mb-4">

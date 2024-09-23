@@ -1,34 +1,27 @@
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8">{{ $quiz->title }} - Results</h1>
+<x-student-nav>
+<div class="container mx-auto p-8">
+    <h1 class="text-3xl font-bold mb-8">Quiz Results: {{ $quiz->title }}</h1>
+    
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold">Your Score: {{ $score }} / {{ $totalQuestions }}</h2>
 
-    <p class="text-xl mb-4">Your Score: {{ $score }} / {{ $totalQuestions }}</p>
-
-    <div class="space-y-6">
-        @foreach ($quizQuestions as $question)
-            <div class="bg-white shadow-lg p-6 rounded-lg">
-                <h2 class="text-xl font-semibold">{{ $question->question }}</h2>
-                <div class="mt-4 space-y-2">
-                    @foreach (json_decode($question->options) as $key => $option)
-                        <div class="p-2 {{ $question->correct_choice == $key ? 'bg-green-100' : '' }}">
-                            <strong>{{ $key + 1 }}.</strong> {{ $option->choice }}
-                            @if (isset($answers[$question->id]) && $answers[$question->id] == $key)
-                                <span class="{{ $answers[$question->id] == $question->correct_choice ? 'text-green-500' : 'text-red-500' }}">
-                                    (Your Answer: {{ $option->choice }})
-                                </span>
-                            @endif
-                            @if ($question->correct_choice == $key)
-                                <span class="text-green-500">(Correct)</span>
-                            @endif
-                        </div>
-                    @endforeach
+        <div class="mt-6 space-y-4">
+            @foreach ($quizQuestions as $question)
+                <div class="p-4 bg-gray-100 rounded-lg">
+                    <h3 class="font-semibold">{{ $question->question_text }}</h3>
+                    <p class="mt-2 text-sm">
+                        <strong>Your Answer:</strong> {{ $answers[$question->id] ?? 'No Answer' }}
+                    </p>
+                    <p class="text-sm text-green-600">
+                        <strong>Correct Answer:</strong> {{ collect(json_decode($question->options, true))->firstWhere('is_correct', true)['choice'] }}
+                    </p>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        </div>
     </div>
 
-    <div class="mt-8">
-        <a href="{{ route('quizzes.index') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">
-            Back to Quizzes
-        </a>
-    </div>
+    <a href="{{ route('quizzes.index') }}" class="mt-8 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg">
+        Back to Quizzes
+    </a>
 </div>
+</x-student-nav>

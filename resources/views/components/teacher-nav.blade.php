@@ -4,180 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard')</title>
+    <title>Teacher's Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .dark {
-            background-color: #1a202c;
-            color: #cbd5e0;
-        }
-
-        .dark .sidebar {
-            background-color: #2d3748;
-            color: #cbd5e0;
-        }
-
-        .sidebar {
-            background-color: #f8fafc;
-            color: #1a202c;
-        }
-
-        .dark .navbar {
-            background-color: #2d3748;
-            color: #cbd5e0;
-        }
-
-        .navbar {
-            background-color: #f8fafc;
-            color: #1a202c;
-        }
-
-        .dark .dropdown {
-            background-color: #2d3748;
-            color: #cbd5e0;
-        }
-
-        .dropdown {
-            background-color: #f8fafc;
-            color: #1a202c;
-        }
-    </style>
 </head>
 
-<body class="bg-gray-100 dark:bg-gray-900 dark:text-gray-200">
-    <div class="flex h-screen">
-        <!-- Sidebar -->
-        <div class="sidebar text-gray-800 dark:text-gray-200 w-64 p-5 flex flex-col h-full">
-        <div class="shrink-0 flex items-center">
-                    <a href="{{ route('teacher.dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
-                    </a>
-                </div>
-            <h1 class="text-2xl font-bold mb-5">Teacher Dashboard</h1>
-            <ul>
-                <li class="mb-3">
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-                    <button class="flex items-center justify-between w-full p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
-                        onclick="toggleQuizDropdown()">
-                        <div class="flex items-center">
-                            <i class="fas fa-question-circle mr-2"></i> Quizzes
-                        </div>
-                        <i id="quizDropdownIcon" class="fas fa-chevron-down"></i>
-                    </button>
-                    <ul id="quizDropdownMenu" class="pl-5 hidden">
-                        <li class="mb-2">
-                            <a href="{{ route('teacher.quizzes.index') }}"
-                                class="flex items-center p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700
-                                {{ request()->routeIs('teacher.quizzes.index') ? 'bg-gray-300 dark:bg-gray-600' : '' }}">
-                                Index
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <a href="{{ route('teacher.quizzes.create') }}"
-                                class="flex items-center p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700
-                                {{ request()->routeIs('teacher.quizzes.create') ? 'bg-gray-300 dark:bg-gray-600' : '' }}">
-                                Create
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+<body class="bg-gray-100 h-screen flex">
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar w-64 bg-gray-800 text-white flex flex-col hidden md:flex">
+        <div class="p-4 text-lg font-bold">Teacher's Dashboard</div>
+
+        <a href="{{ route('teacher.dashboard') }}" class="py-2 px-4 hover:bg-gray-700 {{ request()->is('dashboard') ? 'bg-gray-700' : '' }}">Dashboard</a>
+
+        <!-- Quizzes Dropdown -->
+        <div class="relative">
+            <button class="flex justify-between items-center w-full py-2 px-4 hover:bg-gray-700 focus:outline-none" onclick="toggleDropdown('quizDropdown')">
+                Quizzes
+                <svg class="w-5 h-5 ml-2 transition-transform transform" id="quizIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <div id="quizDropdown" class="hidden absolute left-0 w-full bg-gray-700 z-10">
+                <a href="{{ route('teacher.quizzes.index') }}" class="block py-2 px-4 hover:bg-gray-600">All Quizzes</a>
+                <a href="{{ route('teacher.quizzes.create') }}" class="block py-2 px-4 hover:bg-gray-600">Create Quiz</a>
+            </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="flex-1 p-5 flex flex-col">
-            <!-- Navbar -->
-            <nav class="navbar shadow flex items-center justify-between p-4">
-                <div class="text-xl font-semibold">@yield('header')</div>
-                <div class="relative">
-                    <button id="profileDropdownButton" class="flex items-center p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                        Teacher
-                        <i id="profileDropdownArrow" class="fas fa-chevron-down ml-1"></i>
-                    </button>
-                    <div class="dropdown absolute right-0 mt-2 w-48 rounded-md shadow-lg z-20 hidden" id="profileDropdownMenu">
-                        <button id="themeToggle" class="p-2 w-full text-left rounded-md hover:bg-gray-200 dark:hover:bg-gray-700">
-                            <i id="themeIcon" class="fas fa-sun"></i>
-                            <span class="ml-2">Toggle Theme</span>
-                        </button>
-                        <a href="route(teacher.profile.edit)" class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Profile</a>
-                        <a href="logout" class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700">Logout</a>
-                    </div>
-                </div>
-            </nav>
-
-            <!-- Main Content Section -->
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md flex-1 mt-4">
-                {{ $slot }}
+        <!-- Announcements Dropdown -->
+        <div class="relative">
+            <button class="flex justify-between items-center w-full py-2 px-4 hover:bg-gray-700 focus:outline-none" onclick="toggleDropdown('announcementDropdown')">
+                Announcements
+                <svg class="w-5 h-5 ml-2 transition-transform transform" id="announcementIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <div id="announcementDropdown" class="hidden absolute left-0 w-full bg-gray-700 z-10">
+                <a href="{{ route('teacher.announcements.index') }}" class="block py-2 px-4 hover:bg-gray-600">All Announcements</a>
+                <a href="{{ route('teacher.announcements.create') }}" class="block py-2 px-4 hover:bg-gray-600">Create Announcement</a>
             </div>
+        </div>
+
+        <a href="#" class="py-2 px-4 hover:bg-gray-700 {{ request()->is('assignments*') ? 'bg-gray-700' : '' }}">Assignments</a>
+        <a href="{{ route('teacher.profile.edit') }}" class="py-2 px-4 hover:bg-gray-700 {{ request()->is('profile') ? 'bg-gray-700' : '' }}">Profile</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-grow flex flex-col">
+        <!-- Navbar -->
+        <nav class="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-10">
+            <!-- Sidebar Toggle Button (visible on all screen sizes) -->
+            <button id="toggleSidebar" class="text-gray-600 focus:outline-none md:hidden" onclick="toggleSidebar()">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+
+            <!-- Dynamic Greeting -->
+            <span id="greeting" class="text-xl font-semibold"></span>
+
+            <form method="POST" action="{{ route('teacher.logout') }}">
+                @csrf
+
+                <x-dropdown-link :href="route('teacher.logout')"
+                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                    {{ __('Log Out') }}
+                </x-dropdown-link>
+            </form>
+        </nav>
+
+        <div class="flex-grow p-6 space-y-6">
+            {{ $slot }}
         </div>
     </div>
 
     <script>
-        // Profile Dropdown Toggle
-        document.getElementById('profileDropdownButton').onclick = function() {
-            const profileDropdownMenu = document.getElementById('profileDropdownMenu');
-            const profileDropdownArrow = document.getElementById('profileDropdownArrow');
-
-            profileDropdownMenu.classList.toggle('hidden');
-            profileDropdownArrow.classList.toggle('fa-chevron-up');
-            profileDropdownArrow.classList.toggle('fa-chevron-down');
-        };
-
-        // Quiz Dropdown Toggle
-        function toggleQuizDropdown() {
-            const quizDropdownMenu = document.getElementById('quizDropdownMenu');
-            const quizDropdownIcon = document.getElementById('quizDropdownIcon');
-
-            quizDropdownMenu.classList.toggle('hidden');
-            quizDropdownIcon.classList.toggle('fa-chevron-up');
-            quizDropdownIcon.classList.toggle('fa-chevron-down');
+        // Toggle the dropdown and change icon direction
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            const icon = id === 'quizDropdown' ? document.getElementById('quizIcon') : document.getElementById('announcementIcon');
+            dropdown.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
         }
 
-        // Theme Toggle
-        document.getElementById('themeToggle').onclick = function() {
-            document.body.classList.toggle('dark');
-            const themeIcon = document.getElementById('themeIcon');
-            themeIcon.classList.toggle('fa-sun');
-            themeIcon.classList.toggle('fa-moon');
+        // Toggle the sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+        }
 
-            if (document.body.classList.contains('dark')) {
-                localStorage.setItem('theme', 'dark');
+        // Dynamic greeting based on time of day
+        function displayGreeting() {
+            const currentHour = new Date().getHours();
+            const userName = '{{ auth()->user()->name }}'; // Logged-in teacher's name
+            let greetingText = '';
+
+            if (currentHour < 12) {
+                greetingText = 'Good morning, ' + userName;
+            } else if (currentHour < 18) {
+                greetingText = 'Good afternoon, ' + userName;
             } else {
-                localStorage.setItem('theme', 'light');
+                greetingText = 'Good evening, ' + userName;
             }
-        };
 
-        // Apply stored theme on page load
-        window.onload = function() {
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark');
-                const themeIcon = document.getElementById('themeIcon');
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            }
-        };
+            document.getElementById('greeting').textContent = greetingText;
+        }
 
-        // Close profile dropdown when clicking outside
-        window.onclick = function(event) {
-            if (!event.target.matches('#profileDropdownButton')) {
-                const profileDropdownMenu = document.getElementById('profileDropdownMenu');
-                profileDropdownMenu.classList.add('hidden');
-                const profileDropdownArrow = document.getElementById('profileDropdownArrow');
-                profileDropdownArrow.classList.remove('fa-chevron-up');
-                profileDropdownArrow.classList.add('fa-chevron-down');
-            }
-        };
+        // Call greeting function on page load
+        document.addEventListener('DOMContentLoaded', displayGreeting);
     </script>
+
 </body>
 
 </html>

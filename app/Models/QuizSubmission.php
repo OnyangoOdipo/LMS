@@ -14,7 +14,9 @@ class QuizSubmission extends Model
         'student_id', 
         'answers', 
         'score', 
-        'is_graded'
+        'is_graded',
+        'quiz_start_time',
+        'quiz_end_time'
     ];
 
     // A submission belongs to a quiz
