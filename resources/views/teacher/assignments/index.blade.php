@@ -28,6 +28,7 @@
                             <td class="py-2 px-4">{{ $assignment->deadline }}</td>
                             <td class="py-2 px-4">
                                 <a href="{{ route('teacher.assignments.show', $assignment->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">View</a>
+                                <a href="{{ route('teacher.assignments.submissions', ['assignment' => $assignment->id]) }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Submissions</a>
                             </td>
                         </tr>
                     @empty

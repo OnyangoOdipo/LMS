@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{{ asset('build/assets/output.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <title>Student Dashboard</title>
 </head>
 
@@ -18,21 +19,19 @@
         <span class="text-xl font-semibold text-white">Bonnie Computer Hub</span>
       </a>
       <div class="flex space-x-4">
-        <a href="#" class="text-white hover:text-blue-800">Home</a>
+        <a href="{{ route('dashboard') }}" class="text-white hover:text-blue-800">Home</a>
         <a href="{{ route('quizzes.index') }}" class="text-white hover:text-blue-800">Quizzes</a>
-        <a href="#" class="text-white hover:text-blue-800">Assignments</a>
-        <a href="#" class="text-white hover:text-blue-800">Announcements</a>
-        <a href="#" class="text-white hover:text-blue-800">Progress</a>
+        <a href="{{ route('assignments.index') }}" class="text-white hover:text-blue-800">Assignments</a>
+        <a href="{{ route('announcements.index') }}" class="text-white hover:text-blue-800">Announcements</a>
+        <a href="{{ route('progress.index') }}" class="text-white hover:text-blue-800">Progress</a>
         <form method="POST" action="{{ route('logout') }}">
           @csrf
-
-          <x-dropdown-link :href="route('logout')"
-            onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-            {{ __('Log Out') }}
-          </x-dropdown-link>
+          <button type="submit" class="text-white hover:text-blue-800 focus:outline-none">
+            <span class="material-icons">logout</span>
+          </button>
         </form>
       </div>
+
     </div>
   </nav>
 
@@ -64,7 +63,7 @@
             </a>
           </li>
           <li>
-            <a href="#" class="flex items-center px-4 py-2 bg-gray-900 hover:bg-blue-600 rounded-lg my-1">
+            <a href="{{ route('profile.edit') }}" class="flex items-center px-4 py-2 bg-gray-900 hover:bg-blue-600 rounded-lg my-1">
               <span class="material-icons mr-2">person</span>
               Your Profile
             </a>

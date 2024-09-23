@@ -1,8 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\AssignmentsController;
 use App\Http\Controllers\QuizSubmissionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\StudentController;
 
@@ -33,10 +36,22 @@ Route::get('/video', function () {
     return view('video');
 })->name('video');
 
+Route::get('/announcements', [AnnouncementController::class, 'index'])->name('announcements.index');
+
+Route::get('assignments', [AssignmentsController::class, 'studentIndex'])->name('assignments.index');
+Route::get('assignments/{assignment}', [AssignmentsController::class, 'showAssignment'])->name('assignments.show');
+Route::post('assignments/{assignment}/submit', [AssignmentsController::class, 'submitAssignment'])->name('assignments.submit');
+
 Route::get('/quizzes', [QuizSubmissionController::class, 'index'])->name('quizzes.index'); // List all quizzes
 Route::get('/quizzes/{quizId}', [QuizSubmissionController::class, 'showQuiz'])->name('quizzes.show');
 Route::post('/quizzes/{quizId}/submit', [QuizSubmissionController::class, 'submitQuiz'])->name('quizzes.submit');
 Route::get('/quizzes/{quizId}/results', [QuizSubmissionController::class, 'showResults'])->name('quizzes.results');
+
+// Progress routes
+Route::get('/progress', [ProgressController::class, 'index'])->name('progress.index');
+Route::post('/quizzes/{quizId}/progress', [ProgressController::class, 'storeQuizProgress'])->name('quizzes.progress.store');
+Route::post('/assignments/{assignmentId}/progress', [ProgressController::class, 'storeAssignmentProgress'])->name('assignments.progress.store');
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';

@@ -4,6 +4,7 @@ use App\Http\Controllers\Teacher\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Teacher\ProfileController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AssignmentsController;
 use Illuminate\Support\Facades\Route;
@@ -41,11 +42,13 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
         Route::get('/announcements/create', [AnnouncementController::class, 'create'])->name('announcements.create');
         Route::post('/announcements', [AnnouncementController::class, 'store'])->name('announcements.store');
 
+        // Assignment routes
         Route::get('/assignments', [AssignmentsController::class, 'index'])->name('assignments.index');
         Route::get('/assignments/create', [AssignmentsController::class, 'create'])->name('assignments.create');
         Route::post('/assignments', [AssignmentsController::class, 'store'])->name('assignments.store');
         Route::get('/assignments/{assignment}', [AssignmentsController::class, 'show'])->name('assignments.show');
-
+        Route::get('/assignments/{assignment}/submissions', [AssignmentsController::class, 'showSubmissions'])->name('assignments.submissions');
+        Route::post('/assignments/submissions/{submissionId}/grade', [AssignmentsController::class, 'gradeSubmission'])->name('assignments.grade');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

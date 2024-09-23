@@ -19,11 +19,16 @@ class AnnouncementController extends Controller
 
     public function index()
     {
-        // Retrieve all announcements from the database
-        $announcements = Announcement::all();
+        // Get the logged-in student
+        $student = Auth::user();
+
+        // Retrieve announcements based on the recipient type
+        $announcements = Announcement::where('recipient_type', 'everyone')
+            ->orWhere('recipient_type', 'cohort_' . $student->cohort)
+            ->get();
 
         // Pass announcements to the view
-        return view('teacher.announcements.index', compact('announcements'));
+        return view('announcements.index', compact('announcements')); // Make sure to point to the student view
     }
 
     public function store(Request $request)
@@ -31,8 +36,8 @@ class AnnouncementController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'message' => 'required',
-            'recipient_type' => 'required|in:cohort_1,cohort_2,everyone', // Updated validation
-            'urgency' => 'required|in:low,medium,high', // Urgency validation
+            'recipient_type' => 'required|in:cohort_1,cohort_2,everyone',
+            'urgency' => 'required|in:low,medium,high',
         ]);
 
         // Determine the logged-in user (either a teacher or admin)
@@ -42,7 +47,7 @@ class AnnouncementController extends Controller
         Announcement::create([
             'title' => $request->title,
             'message' => $request->message,
-            'recipient_type' => $request->recipient_type, // Updated to use recipient_type
+            'recipient_type' => $request->recipient_type,
             'urgency' => $request->urgency,
             'teacher_id' => $user instanceof Teacher ? $user->id : null,
             'admin_id' => $user instanceof Admin ? $user->id : null,
