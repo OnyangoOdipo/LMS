@@ -25,13 +25,18 @@ class QuizController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge([
+            'start_time' => \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->start_time)->format('d-m-Y H:i'),
+            'end_time' => \Carbon\Carbon::createFromFormat('Y-m-d\TH:i', $request->end_time)->format('d-m-Y H:i'),
+        ]);
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'course_id' => 'required|exists:courses,id',
             'quiz_type' => 'required|in:multiple_choice,teacher_reviewed',
             'cohort' => 'required|integer',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
+            'start_time' => 'required|date_format:d-m-Y H:i',
+            'end_time' => 'required|date_format:d-m-Y H:i|after:start_time',
             'duration' => 'nullable|integer',
             'questions' => 'required_if:quiz_type,multiple_choice|array',
             'questions.*.question' => 'required|string',
@@ -44,13 +49,16 @@ class QuizController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $start_time = \Carbon\Carbon::createFromFormat('d-m-Y H:i', $request->start_time)->format('Y-m-d H:i:s');
+        $end_time = \Carbon\Carbon::createFromFormat('d-m-Y H:i', $request->end_time)->format('Y-m-d H:i:s');
+
         $quiz = Quiz::create([
             'title' => $request->input('title'),
             'course_id' => $request->input('course_id'),
             'quiz_type' => $request->input('quiz_type'),
             'cohort' => $request->input('cohort'),
-            'start_time' => $request->input('start_time'),
-            'end_time' => $request->input('end_time'),
+            'start_time' => $start_time,  // Use the converted datetime
+            'end_time' => $end_time,      // Use the converted datetime
             'duration' => $request->input('duration'),
         ]);
 
@@ -134,5 +142,4 @@ class QuizController extends Controller
 
         return redirect()->route('teacher.quizzes.index')->with('success', 'Quiz updated successfully!');
     }
-
 }

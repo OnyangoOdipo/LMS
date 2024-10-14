@@ -8,9 +8,12 @@ use App\Models\Progress;
 use App\Models\QuizQuestion;
 use App\Models\QuizSubmission;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Services\AIAnalysisService;
 
 class QuizSubmissionController extends Controller
 {
+
     public function index()
     {
         $userCohort = Auth::user()->cohort;
@@ -22,8 +25,18 @@ class QuizSubmissionController extends Controller
     public function showQuiz($quizId)
     {
         $quiz = Quiz::with('questions')->findOrFail($quizId);
+        $user = Auth::user();
 
-        $currentDateTime = now();
+        // Check if the user has already submitted this quiz
+        $submission = QuizSubmission::where('quiz_id', $quizId)
+            ->where('student_id', $user->id)
+            ->first();
+
+        if ($submission) {
+            return redirect()->route('quizzes.index')->withErrors('You have already submitted this quiz.');
+        }
+
+        $currentDateTime = now()->setTimezone('Africa/Nairobi');
 
         // Check if the quiz is accessible
         if ($currentDateTime < $quiz->start_time) {
@@ -39,22 +52,40 @@ class QuizSubmissionController extends Controller
 
     public function submitQuiz(Request $request, $quizId)
     {
+        $user = Auth::user();
+    
+        // Check if the user has already submitted this quiz
+        $existingSubmission = QuizSubmission::where('quiz_id', $quizId)
+            ->where('student_id', $user->id)
+            ->first();
+    
+        if ($existingSubmission) {
+            if ($request->ajax()) {
+                return response()->json(['message' => 'You have already submitted this quiz.'], 400);
+            }
+            return redirect()->route('quizzes.index')->withErrors('You have already submitted this quiz.');
+        }
+    
         $request->validate(['answers' => 'required|array']);
-
-        // Create or update the quiz submission
-        $submission = QuizSubmission::firstOrCreate(
-            ['quiz_id' => $quizId, 'student_id' => Auth::id()],
-            ['answers' => json_encode([])]
-        );
-
-        $submission->answers = json_encode($request->input('answers'));
+    
+        // Create the quiz submission
+        $submission = new QuizSubmission([
+            'quiz_id' => $quizId,
+            'student_id' => $user->id,
+            'answers' => json_encode($request->input('answers')),
+        ]);
+    
         $submission->score = $this->calculateScore($quizId, $submission->answers);
         $submission->is_graded = 1;
         $submission->save();
-
+    
         // Update the progress table
         $this->updateProgress($quizId, $submission->score);
-
+    
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Quiz submitted successfully', 'redirect' => route('quizzes.results', ['quizId' => $quizId])]);
+        }
+    
         return redirect()->route('quizzes.results', ['quizId' => $quizId]);
     }
 

@@ -111,13 +111,13 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
                     <label for="start_time" class="block text-lg font-medium text-gray-700">Start Time:</label>
-                    <input type="time" name="start_time" id="start_time" value="{{ old('start_time') }}" required
+                    <input type="datetime-local" name="start_time" id="start_time" value="{{ old('start_time') }}" required
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
                 </div>
 
                 <div>
                     <label for="end_time" class="block text-lg font-medium text-gray-700">End Time:</label>
-                    <input type="time" name="end_time" id="end_time" value="{{ old('end_time') }}" required
+                    <input type="datetime-local" name="end_time" id="end_time" value="{{ old('end_time') }}" required
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
                 </div>
             </div>

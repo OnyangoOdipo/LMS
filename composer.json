@@ -9,6 +9,7 @@
         "laravel/framework": "^11.9",
         "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.9",
+        "openai-php/client": "^0.10.1",
         "pusher/pusher-php-server": "^7.2",
         "taylanunutmaz/agora-token-builder": "^1.1"
     },

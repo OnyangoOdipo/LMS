@@ -52,6 +52,9 @@ Route::get('/progress', [ProgressController::class, 'index'])->name('progress.in
 Route::post('/quizzes/{quizId}/progress', [ProgressController::class, 'storeQuizProgress'])->name('quizzes.progress.store');
 Route::post('/assignments/{assignmentId}/progress', [ProgressController::class, 'storeAssignmentProgress'])->name('assignments.progress.store');
 
+Route::get('/csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+});
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';

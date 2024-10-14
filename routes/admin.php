@@ -31,6 +31,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/users/{id}', [UserController::class, 'deleteStudent'])->name('delete.user');
         Route::delete('/teachers/{id}', [UserController::class, 'deleteTeacher'])->name('delete.teacher');
         Route::post('/teachers', [UserController::class, 'storeTeacher'])->name('store.teacher');
+        Route::post('/users', [UserController::class, 'storeStudent'])->name('store.user');
 
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

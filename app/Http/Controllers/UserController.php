@@ -12,7 +12,7 @@ class UserController extends Controller
     public function showStudents()
     {
         $students = User::all(); // Fetch all users from the users table
-        return view('admin.students', compact('students'));
+        return view('admin.users', compact('students'));
     }
 
     // Show the teachers page
@@ -20,6 +20,24 @@ class UserController extends Controller
     {
         $teachers = Teacher::all(); // Fetch all teachers from the teachers table
         return view('admin.teachers', compact('teachers'));
+    }
+
+    public function storeStudent(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+        ]);
+
+        // Store new teacher with default password
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make('student#123'), // Default password
+            'cohort' => '2',
+        ]);
+
+        return redirect()->route('admin.users')->with('success', 'Teacher added successfully.');
     }
 
     public function storeTeacher(Request $request)

@@ -9,13 +9,15 @@ class AddRecipientTypeToAnnouncementsTable extends Migration
     public function up()
     {
         Schema::table('announcements', function (Blueprint $table) {
-            $table->enum('recipient_type', ['cohort_1', 'cohort_2', 'everyone'])->default('everyone');
+            // Add the recipient_type column with default value 'everyone'
+            $table->string('recipient_type')->default('everyone');
         });
     }
 
     public function down()
     {
         Schema::table('announcements', function (Blueprint $table) {
+            // Drop the recipient_type column in case of rollback
             $table->dropColumn('recipient_type');
         });
     }
